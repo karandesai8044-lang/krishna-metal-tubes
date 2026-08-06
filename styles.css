@@ -490,3 +490,68 @@ footer{background:var(--panel);border-top:1px solid var(--hairline);padding-top:
   .ring-svg,.sheen,.pipe-dots,.track,.cert::before,.map-pin svg{animation:none!important}
   .reveal{opacity:1;transform:none}
 }
+
+/* ============================================================
+   PREMIUM UPGRADE — Batch 1
+   ambient depth · film grain · cinematic hero · micro-interactions
+   custom cursor · page transition
+============================================================ */
+
+/* Ambient gradient-mesh depth behind all content */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(55% 45% at 12% -5%,rgba(225,37,27,.07),transparent 60%),
+    radial-gradient(45% 40% at 105% 15%,rgba(120,140,165,.06),transparent 60%),
+    radial-gradient(60% 55% at 50% 118%,rgba(225,37,27,.05),transparent 62%);
+}
+
+/* Fine film-grain overlay across the whole viewport */
+body::after{
+  content:"";position:fixed;inset:-40%;z-index:9998;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;animation:grain 6s steps(6) infinite;
+}
+@keyframes grain{
+  0%{transform:translate(0,0)}10%{transform:translate(-3%,-4%)}20%{transform:translate(-7%,2%)}
+  30%{transform:translate(4%,-6%)}40%{transform:translate(-2%,5%)}50%{transform:translate(-7%,4%)}
+  60%{transform:translate(5%,0)}70%{transform:translate(0,5%)}80%{transform:translate(3%,-2%)}
+  90%{transform:translate(-4%,3%)}100%{transform:translate(0,0)}
+}
+
+/* Cinematic hero — slow Ken-Burns zoom + parallax smoothing */
+.hero-bg img{animation:kenburns 26s ease-in-out infinite alternate;transform-origin:60% 40%}
+@keyframes kenburns{from{transform:scale(1.02)}to{transform:scale(1.14)}}
+.hero-bg,.ring-wrap,.hero-copy{transition:transform .5s var(--ease)}
+.hero-art{will-change:transform}
+
+/* Animated heading underline as section reveals */
+h2.title{position:relative}
+.reveal h2.title::after{content:"";position:absolute;left:0;bottom:-14px;height:2px;width:0;
+  background:linear-gradient(90deg,var(--red),var(--red-glow),transparent);
+  transition:width 1s .25s var(--ease)}
+.reveal.in h2.title::after{width:86px}
+body.hi .reveal.in h2.title::after{bottom:-10px}
+
+/* 3D tilt smoothing on interactive cards */
+.cat,.cap-card,.gradebox,.why{will-change:transform;transform-style:preserve-3d}
+
+/* Custom cursor ring (desktop, fine pointer only) */
+.cursor-ring{position:fixed;top:0;left:0;width:32px;height:32px;border:1.5px solid rgba(225,37,27,.55);
+  border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);opacity:0;
+  transition:width .25s var(--ease),height .25s var(--ease),background .25s,border-color .25s,opacity .3s;
+  mix-blend-mode:difference}
+.cursor-ring.on{opacity:1}
+.cursor-ring.hover{width:56px;height:56px;border-color:var(--red-glow);background:rgba(225,37,27,.10)}
+
+/* Page-leave curtain (smooth transition between pages) */
+.page-curtain{position:fixed;inset:0;z-index:190;background:var(--ink);transform:translateY(100%);
+  pointer-events:none;will-change:transform}
+.page-curtain.in{transform:translateY(0);transition:transform .45s cubic-bezier(.7,0,.2,1)}
+
+@media(hover:none),(pointer:coarse){.cursor-ring{display:none}}
+@media(prefers-reduced-motion:reduce){
+  body::after,.hero-bg img{animation:none!important}
+  .cursor-ring,.page-curtain{display:none!important}
+  .hero-bg,.ring-wrap,.hero-copy{transition:none!important}
+}
