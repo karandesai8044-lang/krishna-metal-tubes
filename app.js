@@ -58,6 +58,10 @@ function applyLang(hi){
     var val=hi?el.getAttribute('data-hi'):el.getAttribute('data-en');
     if(val!=null) el.innerHTML=val;
   });
+  document.querySelectorAll('[data-en-ph]').forEach(function(el){
+    var val=hi?el.getAttribute('data-hi-ph'):el.getAttribute('data-en-ph');
+    if(val!=null) el.placeholder=val;
+  });
 }
 function setLang(lang){
   var hi=lang==='hi';
@@ -295,5 +299,93 @@ if(fine){
   },{passive:false});
   window.addEventListener('scroll',function(){ if(!animating)target=current=window.scrollY; },{passive:true});
   window.addEventListener('resize',function(){target=Math.max(0,Math.min(max(),target));});
+})();
+
+/* ---------- ENQUIRY CART (global, localStorage) ---------- */
+(function(){
+  var KEY='kmt-enquiry', PHONE='919300002940';
+  var WA='<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.8 4.9-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 .9-2.2.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5.2.5.7 1.8.8 1.9.1.1.1.3 0 .5l-.7 1c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1.2.1 1.5.7 1.7.8.2.1.4.2.4.3.1.1.1.5-.1 1.1Z"/></svg>';
+  function get(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]} }
+  function save(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} render(); }
+  function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+
+  var fab=document.createElement('button'); fab.className='enq-fab'; fab.setAttribute('aria-label','Open enquiry list');
+  fab.innerHTML='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2"><path d="M6 2h8l4 4v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z"/><path d="M9 12h6M9 16h4"/></svg><span class="enq-lbl" data-en="Enquiry" data-hi="एन्क्वायरी">Enquiry</span><span class="cnt">0</span>';
+  var panel=document.createElement('div'); panel.className='enq-panel';
+  panel.innerHTML='<h4><span data-en="Your Enquiry List" data-hi="आपकी एन्क्वायरी लिस्ट">Your Enquiry List</span><button class="close" aria-label="Close">&times;</button></h4>'+
+    '<div class="enq-list"></div>'+
+    '<div class="enq-actions"><a class="btn btn-wa enq-send" target="_blank" rel="noopener">'+WA+'<span data-en="Send all on WhatsApp" data-hi="सब व्हाट्सएप पर भेजें">Send all on WhatsApp</span></a>'+
+    '<button class="enq-clear" data-en="Clear all" data-hi="सब हटाएं">Clear all</button></div>';
+  document.body.appendChild(fab); document.body.appendChild(panel);
+
+  var listEl=panel.querySelector('.enq-list'), cntEl=fab.querySelector('.cnt'), sendEl=panel.querySelector('.enq-send');
+
+  function render(){
+    var a=get();
+    cntEl.textContent=a.length;
+    fab.classList.toggle('show',a.length>0);
+    if(!a.length){ panel.classList.remove('open');
+      listEl.innerHTML='<div class="enq-empty" data-en="No items yet — add products from the list below." data-hi="अभी कोई आइटम नहीं — नीचे लिस्ट से प्रोडक्ट जोड़ें।">No items yet.</div>';
+    } else {
+      listEl.innerHTML=a.map(function(n){return '<div class="enq-item"><span>'+esc(n)+'</span><button data-rm="'+encodeURIComponent(n)+'" aria-label="Remove">&times;</button></div>';}).join('');
+    }
+    var txt='*Enquiry — Krishna Metal & Tubes*\nPlease share best rate & availability for:\n'+a.map(function(n,i){return (i+1)+'. '+n;}).join('\n');
+    sendEl.href='https://wa.me/'+PHONE+'?text='+encodeURIComponent(txt);
+    document.querySelectorAll('[data-enq]').forEach(function(b){ b.classList.toggle('added',a.indexOf(b.getAttribute('data-enq'))>=0); });
+    if(window.KMT_applyLang)window.KMT_applyLang();
+  }
+  fab.addEventListener('click',function(){ panel.classList.toggle('open'); });
+  panel.querySelector('.close').addEventListener('click',function(){ panel.classList.remove('open'); });
+  panel.querySelector('.enq-clear').addEventListener('click',function(){ save([]); });
+  listEl.addEventListener('click',function(e){ var b=e.target.closest('[data-rm]'); if(b)save(get().filter(function(x){return x!==decodeURIComponent(b.getAttribute('data-rm'))})); });
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('[data-enq]'); if(!b)return;
+    e.preventDefault();
+    var n=b.getAttribute('data-enq'), a=get();
+    if(a.indexOf(n)>=0)save(a.filter(function(x){return x!==n})); else{a.push(n);save(a);}
+  });
+  window.KMT_enqRender=render;
+  render();
+})();
+
+/* ---------- PRODUCTS: search + filter + inject actions ---------- */
+(function(){
+  var filter=document.getElementById('prodFilter'); if(!filter)return;
+  var cats=[].slice.call(document.querySelectorAll('.pcat'));
+  var search=document.getElementById('prodSearch');
+  var chips=[].slice.call(filter.querySelectorAll('.pf-chip'));
+  var countEl=document.getElementById('pfCount');
+  var empty=document.getElementById('pfEmpty');
+  var PHONE='919300002940';
+
+  cats.forEach(function(sec){
+    var copy=sec.querySelector('.pcat-copy'); if(!copy||copy.querySelector('.pcat-actions'))return;
+    var h2=copy.querySelector('h2'); var name=h2?h2.textContent.trim():'';
+    var txt='*Enquiry — Krishna Metal & Tubes*\nProduct: '+name+'\nPlease share best rate & availability.';
+    var wrap=document.createElement('div'); wrap.className='pcat-actions';
+    wrap.innerHTML='<button class="btn btn-ghost pcat-add" data-enq="'+name.replace(/"/g,'&quot;')+'"><span data-en="+ Add to Enquiry" data-hi="+ एन्क्वायरी में जोड़ें">+ Add to Enquiry</span></button>'+
+      '<a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/'+PHONE+'?text='+encodeURIComponent(txt)+'"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.8 4.9-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 .9-2.2.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5.2.5.7 1.8.8 1.9.1.1.1.3 0 .5l-.7 1c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1.2.1 1.5.7 1.7.8.2.1.4.2.4.3.1.1.1.5-.1 1.1Z"/></svg><span data-en="Enquire" data-hi="पूछताछ">Enquire</span></a>';
+    copy.appendChild(wrap);
+  });
+
+  function apply(){
+    var q=(search&&search.value||'').trim().toLowerCase();
+    var active=filter.querySelector('.pf-chip.on'); var cat=active?active.getAttribute('data-filter'):'all';
+    var shown=0;
+    cats.forEach(function(sec){
+      var okCat=cat==='all'||sec.id===cat;
+      var okQ=!q||sec.textContent.toLowerCase().indexOf(q)>=0;
+      var show=okCat&&okQ;
+      sec.classList.toggle('hide',!show);
+      if(show)shown++;
+    });
+    if(countEl)countEl.textContent=shown+' / '+cats.length;
+    if(empty)empty.classList.toggle('show',shown===0);
+  }
+  if(search)search.addEventListener('input',apply);
+  chips.forEach(function(c){ c.addEventListener('click',function(){ chips.forEach(function(x){x.classList.remove('on')}); c.classList.add('on'); apply(); }); });
+  apply();
+  if(window.KMT_applyLang)window.KMT_applyLang();
+  if(window.KMT_enqRender)window.KMT_enqRender();
 })();
 })();

@@ -555,3 +555,68 @@ body.hi .reveal.in h2.title::after{bottom:-10px}
   .cursor-ring,.page-curtain{display:none!important}
   .hero-bg,.ring-wrap,.hero-copy{transition:none!important}
 }
+
+/* ============================================================
+   PREMIUM UPGRADE — Batch 2
+   Products search/filter · per-product actions · enquiry cart
+============================================================ */
+
+/* Sticky filter / search bar */
+.prod-filter{position:sticky;top:72px;z-index:80;background:rgba(18,22,28,.82);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-block:1px solid var(--hairline)}
+.pf-inner{display:flex;align-items:center;gap:.9rem;padding-block:.8rem;flex-wrap:wrap}
+.pf-search{display:flex;align-items:center;gap:.5rem;background:var(--ink);border:1px solid var(--border);
+  border-radius:999px;padding:.5rem .95rem;flex:1 1 220px;max-width:320px;transition:border-color .3s,box-shadow .3s}
+.pf-search:focus-within{border-color:var(--red);box-shadow:0 0 0 3px rgba(225,37,27,.18)}
+.pf-search svg{width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2;flex-shrink:0}
+.pf-search input{background:none;border:none;color:var(--white);font-family:var(--f-body);font-size:.9rem;width:100%;outline:none}
+.pf-search input::-webkit-search-cancel-button{filter:invert(.6)}
+.pf-chips{display:flex;gap:.4rem;flex-wrap:wrap;flex:1 1 auto}
+.pf-chip{font-family:var(--f-mono);font-size:.74rem;padding:.42rem .8rem;border:1px solid var(--border);
+  border-radius:999px;color:var(--muted);transition:.25s;white-space:nowrap}
+.pf-chip:hover{color:var(--silver);border-color:var(--muted)}
+.pf-chip.on{background:var(--red);border-color:var(--red);color:#fff}
+.pf-count{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);margin-left:auto;white-space:nowrap}
+.pcat.hide{display:none}
+.pf-empty{display:none;text-align:center;padding:calc(var(--sec) * .8) var(--pad);color:var(--muted);
+  font-family:var(--f-mono);font-size:.9rem}
+.pf-empty.show{display:block}
+
+/* Per-product action buttons */
+.pcat-actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.6rem}
+.pcat-add{font-size:.9rem}
+.pcat-add.added{background:var(--green);border-color:var(--green);color:#fff}
+.pcat-add.added:hover{background:var(--green);filter:brightness(1.08)}
+
+/* Enquiry cart — floating pill + panel */
+.enq-fab{position:fixed;left:18px;bottom:18px;z-index:95;display:none;align-items:center;gap:.55rem;
+  background:var(--red);color:#fff;border-radius:999px;padding:.7rem 1.05rem;font-weight:600;font-size:.9rem;
+  box-shadow:0 12px 30px -8px rgba(225,37,27,.6);transition:transform .3s}
+.enq-fab.show{display:inline-flex}
+.enq-fab:hover{transform:translateY(-2px)}
+.enq-fab svg{flex-shrink:0}
+.enq-fab .cnt{background:#fff;color:var(--red);border-radius:999px;min-width:20px;height:20px;
+  display:grid;place-items:center;font-family:var(--f-mono);font-size:.72rem;padding:0 .35rem;font-weight:700}
+.enq-panel{position:fixed;left:18px;bottom:82px;z-index:96;width:min(340px,calc(100vw - 36px));
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:1.1rem 1.15rem;transform:translateY(16px) scale(.98);opacity:0;pointer-events:none;
+  transform-origin:bottom left;transition:.3s var(--ease)}
+.enq-panel.open{transform:none;opacity:1;pointer-events:auto}
+.enq-panel h4{font-family:var(--f-display);font-size:1.05rem;color:var(--white);
+  display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.enq-panel h4 .close{color:var(--muted);font-size:1.4rem;line-height:1;padding:0 .2rem}
+.enq-panel h4 .close:hover{color:var(--white)}
+.enq-list{max-height:38vh;overflow:auto;margin:.9rem 0;display:grid;gap:.4rem}
+.enq-item{display:flex;justify-content:space-between;align-items:center;gap:.5rem;background:var(--ink);
+  border:1px solid var(--border);border-radius:8px;padding:.5rem .7rem;font-size:.85rem;color:var(--silver)}
+.enq-item button{color:var(--muted);font-size:1.05rem;line-height:1;flex-shrink:0}
+.enq-item button:hover{color:var(--red)}
+.enq-empty{color:var(--muted);font-size:.85rem;text-align:center;padding:1.1rem 0}
+.enq-actions{display:grid;gap:.55rem}
+.enq-send{width:100%;justify-content:center}
+.enq-clear{font-size:.78rem;color:var(--muted);text-align:center}
+.enq-clear:hover{color:var(--red)}
+@media(max-width:520px){
+  .enq-fab{padding:.6rem .8rem}
+  .enq-fab .enq-lbl{display:none}
+}

@@ -105,6 +105,31 @@
   </div>
 </section>
 
+<!-- ===== PRODUCT FILTER / SEARCH ===== -->
+<div class="prod-filter" id="prodFilter">
+  <div class="wrap pf-inner">
+    <label class="pf-search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="prodSearch" type="search" placeholder="Search products, grades, sizes…" data-en-ph="Search products, grades, sizes…" data-hi-ph="प्रोडक्ट, ग्रेड, साइज़ खोजें…" aria-label="Search products">
+    </label>
+    <div class="pf-chips" id="pfChips">
+      <button class="pf-chip on" data-filter="all" data-en="All" data-hi="सभी">All</button>
+      <button class="pf-chip" data-filter="pipes" data-en="Pipes" data-hi="पाइप">Pipes</button>
+      <button class="pf-chip" data-filter="fittings" data-en="Fittings" data-hi="फिटिंग्स">Fittings</button>
+      <button class="pf-chip" data-filter="flanges" data-en="Flanges" data-hi="फ्लैंज">Flanges</button>
+      <button class="pf-chip" data-filter="valves" data-en="Valves" data-hi="वाल्व">Valves</button>
+      <button class="pf-chip" data-filter="sheets" data-en="Sheets" data-hi="शीट">Sheets</button>
+      <button class="pf-chip" data-filter="bars" data-en="Bars" data-hi="बार">Bars</button>
+      <button class="pf-chip" data-filter="fasteners" data-en="Fasteners" data-hi="फास्टनर">Fasteners</button>
+      <button class="pf-chip" data-filter="dairy" data-en="Dairy" data-hi="डेयरी">Dairy</button>
+      <button class="pf-chip" data-filter="conveyor" data-en="Conveyor" data-hi="कन्वेयर">Conveyor</button>
+      <button class="pf-chip" data-filter="nonferrous" data-en="Non-Ferrous" data-hi="नॉन-फेरस">Non-Ferrous</button>
+    </div>
+    <span class="pf-count" id="pfCount"></span>
+  </div>
+</div>
+<div class="pf-empty" id="pfEmpty" data-en="No products match your search. Try another term or clear the filter." data-hi="आपकी खोज से कोई प्रोडक्ट मेल नहीं खाता। दूसरा शब्द आज़माएं या फ़िल्टर हटाएं।">No products match your search. Try another term or clear the filter.</div>
+
 <!-- ===== 1. PIPES ===== -->
 <section class="pcat" id="pipes">
   <div class="wrap pcat-inner">
