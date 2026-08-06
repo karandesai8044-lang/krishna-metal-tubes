@@ -660,3 +660,18 @@ body.hi .reveal.in h2.title::after{bottom:-10px}
   .wrap{max-width:100%;padding:0 12px}
   table.data,.table-scroll{min-width:0}
 }
+
+/* ============================================================
+   PREMIUM UPGRADE — Batch 4
+   Skeleton shimmer placeholder (covered by image once loaded).
+   Never hides images — safe even if JS does not run.
+============================================================ */
+.cat-img,.gal,.pcat-hero,.thumbs .th,.story-media{
+  background-image:linear-gradient(100deg,var(--panel) 28%,var(--panel-2) 50%,var(--panel) 72%);
+  background-size:200% 100%;animation:skeleton 1.5s ease-in-out infinite}
+.cat-img.imgok,.gal.imgok,.pcat-hero.imgok,.thumbs .th.imgok,.story-media.imgok{
+  background-image:none;animation:none}
+@keyframes skeleton{0%{background-position:100% 0}100%{background-position:-100% 0}}
+@media(prefers-reduced-motion:reduce){
+  .cat-img,.gal,.pcat-hero,.thumbs .th,.story-media{animation:none}
+}

@@ -425,4 +425,15 @@ if(fine){
   grid.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});
   if(window.KMT_applyLang)window.KMT_applyLang();
 })();
+
+/* ---------- IMAGE SKELETON: clear shimmer once loaded ---------- */
+(function(){
+  document.querySelectorAll('.cat-img,.gal,.pcat-hero,.thumbs .th,.story-media').forEach(function(box){
+    var img=box.querySelector('img');
+    if(!img){box.classList.add('imgok');return;}
+    function done(){box.classList.add('imgok');}
+    if(img.complete&&img.naturalWidth)done();
+    else{img.addEventListener('load',done,{once:true});img.addEventListener('error',done,{once:true});}
+  });
+})();
 })();
