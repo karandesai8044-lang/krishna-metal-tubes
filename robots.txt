@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Replace with your real domain once booked
-Sitemap: https://krishnametaltubes.com/sitemap.xml
+Sitemap: https://karandesai8044-lang.github.io/krishna-metal-tubes/sitemap.xml

@@ -2,7 +2,7 @@
 
 Premium, bilingual (English + हिन्दी), mobile-first marketing website for **Krishna Metal & Tubes**, Raipur (C.G.) — importer, stockist & supplier of ferrous & non-ferrous metals, and manufacturer of stainless steel pipes.
 
-**Live site:** _(GitHub Pages URL will appear here once Pages is enabled)_
+**Live site:** https://karandesai8044-lang.github.io/krishna-metal-tubes/
 
 ---
 
@@ -56,7 +56,7 @@ Then open the printed `http://localhost:PORT/` — `index.html` loads at the roo
 
 ## TODO before public launch
 
-- [ ] Replace the placeholder domain `https://krishnametaltubes.com` in the SEO tags (`canonical`, `og:*`, `twitter:*`), `sitemap.xml` and `robots.txt` with the real site URL (the GitHub Pages URL, or a custom domain if booked later).
+- [ ] Replace the placeholder domain `https://karandesai8044-lang.github.io/krishna-metal-tubes` in the SEO tags (`canonical`, `og:*`, `twitter:*`), `sitemap.xml` and `robots.txt` with the real site URL (the GitHub Pages URL, or a custom domain if booked later).
 - [ ] Confirm business hours (currently Mon–Sat, 10:00 AM – 8:00 PM).
 - [ ] (Optional) Swap in real product photos; add Google Business Profile + Google Analytics.
 
