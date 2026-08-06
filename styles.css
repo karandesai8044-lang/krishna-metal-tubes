@@ -620,3 +620,43 @@ body.hi .reveal.in h2.title::after{bottom:-10px}
   .enq-fab{padding:.6rem .8rem}
   .enq-fab .enq-lbl{display:none}
 }
+
+/* ============================================================
+   PREMIUM UPGRADE — Batch 3
+   Real map · testimonials · print catalogue
+============================================================ */
+
+/* Real Google Map (dark-tuned) */
+.map-embed{width:100%;height:270px;border:0;display:block;
+  filter:invert(.92) hue-rotate(180deg) brightness(.95) contrast(.9) saturate(.8)}
+
+/* Testimonials */
+.tst-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;margin-top:1.3rem}
+.tst{padding:1.6rem 1.6rem;border:1px solid var(--border);border-radius:var(--radius);
+  background:linear-gradient(180deg,var(--panel-2),var(--panel))}
+.tst .q{color:var(--silver);font-size:1rem;line-height:1.65}
+.tst .q::before{content:"\201C";font-family:var(--f-display);font-weight:800;font-size:2.2rem;
+  color:var(--red);line-height:0;vertical-align:-.4em;margin-right:.15rem}
+.tst .who{margin-top:1.1rem;display:flex;align-items:center;gap:.7rem}
+.tst .who .av{width:40px;height:40px;border-radius:50%;background:var(--metal);display:grid;place-items:center;
+  color:#12151b;font-weight:800;font-family:var(--f-display);flex-shrink:0}
+.tst .who b{color:var(--white);font-size:.92rem;font-family:var(--f-display)}
+.tst .who span span{color:var(--muted);font-size:.78rem;font-family:var(--f-mono)}
+
+/* Print / Save-as-PDF catalogue */
+@media print{
+  #preloader,#progress,header,.mobile-menu,.floats,.enq-fab,.enq-panel,.cursor-ring,.page-curtain,
+  .prod-filter,.pf-empty,.scroll-cue,.pcat-actions,.thumbs,.marquee,.cta-band,.page-hero-bg,.grid-lines,.mini-ring{display:none!important}
+  html,body{background:#fff!important}
+  body::before,body::after{display:none!important}
+  *{color:#111!important;text-shadow:none!important;box-shadow:none!important;animation:none!important;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .reveal{opacity:1!important;transform:none!important}
+  .pcat{page-break-inside:avoid;border-top:1px solid #ccc;padding-block:16px}
+  .pcat-hero img,.gal img,.story-media img{filter:none!important}
+  .eyebrow,.pcat-copy .num,.gg-lbl,.pcat-copy h2,h2.title,table.data th{color:#c81f16!important}
+  .spec-list li svg{stroke:#c81f16!important}
+  a{color:#111!important;text-decoration:none}
+  .wrap{max-width:100%;padding:0 12px}
+  table.data,.table-scroll{min-width:0}
+}

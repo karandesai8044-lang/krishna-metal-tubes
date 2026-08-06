@@ -186,10 +186,25 @@ document.querySelectorAll('[data-tabs]').forEach(function(group){
   }
   form.addEventListener('submit',function(e){
     e.preventDefault();
+    var honey=form.elements['_honey']; if(honey&&honey.value)return; // spam bot
     if(!form.reportValidity())return;
     var d=collect(),txt=buildText(d);
     window.open('https://wa.me/'+PHONE+'?text='+encodeURIComponent(txt),'_blank');
     var ok=document.getElementById('formOk'); if(ok)ok.style.display='block';
+    // Also deliver a copy to the inbox (best-effort, no backend needed).
+    // First submission triggers a one-time activation email to MAIL — click it once.
+    try{
+      fetch('https://formsubmit.co/ajax/'+MAIL,{
+        method:'POST',
+        headers:{'Content-Type':'application/json',Accept:'application/json'},
+        body:JSON.stringify({
+          Name:d.name,Phone:d.phone,Email:d.email||'—',
+          Requirement:d.product||'—',Message:d.message||'—',
+          _subject:'New enquiry — Krishna Metal & Tubes website',_template:'table'
+        })
+      }).catch(function(){});
+    }catch(err){}
+    form.reset();
   });
   var mailBtn=document.getElementById('emailInstead');
   if(mailBtn)mailBtn.addEventListener('click',function(){
@@ -385,7 +400,29 @@ if(fine){
   if(search)search.addEventListener('input',apply);
   chips.forEach(function(c){ c.addEventListener('click',function(){ chips.forEach(function(x){x.classList.remove('on')}); c.classList.add('on'); apply(); }); });
   apply();
+  var pc=document.getElementById('printCat'); if(pc)pc.addEventListener('click',function(){window.print();});
   if(window.KMT_applyLang)window.KMT_applyLang();
   if(window.KMT_enqRender)window.KMT_enqRender();
+})();
+
+/* ---------- TESTIMONIALS (real quotes only; empty => hidden) ---------- */
+(function(){
+  var grid=document.getElementById('tstGrid'); if(!grid)return;
+  /* Add ONLY genuine client feedback here. Each entry:
+     {quote_en, quote_hi, name, role_en, role_hi}. Never invent testimonials. */
+  var TESTIMONIALS=[
+    // { quote_en:'…', quote_hi:'…', name:'…', role_en:'Procurement, … Plant', role_hi:'…' },
+  ];
+  if(!TESTIMONIALS.length){grid.hidden=true;return;}
+  grid.hidden=false;
+  grid.innerHTML=TESTIMONIALS.map(function(t,i){
+    var init=((t.name||'?').trim().charAt(0)||'?').toUpperCase();
+    return '<figure class="tst reveal'+(i%4?' d'+(i%4):'')+'">'+
+      '<blockquote class="q" data-en="'+t.quote_en+'" data-hi="'+(t.quote_hi||t.quote_en)+'">'+t.quote_en+'</blockquote>'+
+      '<figcaption class="who"><span class="av">'+init+'</span><span><b>'+t.name+'</b><br>'+
+      '<span data-en="'+t.role_en+'" data-hi="'+(t.role_hi||t.role_en)+'">'+t.role_en+'</span></span></figcaption></figure>';
+  }).join('');
+  grid.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});
+  if(window.KMT_applyLang)window.KMT_applyLang();
 })();
 })();
