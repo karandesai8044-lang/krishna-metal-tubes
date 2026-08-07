@@ -269,7 +269,7 @@ if(fine){
   });
   document.addEventListener('mouseover',function(e){ if(e.target.closest(SEL))ring.classList.add('hover'); });
   document.addEventListener('mouseout',function(e){ if(e.target.closest(SEL))ring.classList.remove('hover'); });
-  (function loop(){ rx+=(tx-rx)*.2;ry+=(ty-ry)*.2;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop); })();
+  (function loop(){ rx+=(tx-rx)*.2;ry+=(ty-ry)*.2;ring.style.transform='translate('+rx+'px,'+ry+'px) translate(-50%,-50%)';requestAnimationFrame(loop); })();
 })();
 
 /* ---------- PAGE-LEAVE CURTAIN ---------- */
@@ -289,32 +289,7 @@ if(fine){
   window.addEventListener('pageshow',function(){cur.classList.remove('in');});
 })();
 
-/* ---------- SMOOTH MOMENTUM SCROLL (desktop) ---------- */
-(function(){
-  if(reduce||!fine)return;
-  var target=window.scrollY,current=target,animating=false;
-  function max(){return document.documentElement.scrollHeight-window.innerHeight;}
-  function inner(el){
-    while(el&&el!==document.body&&el.matches){
-      if(el.matches('.gal-track,.table-scroll,#lightbox,.mobile-menu,.thumbs'))return true;
-      el=el.parentElement;
-    } return false;
-  }
-  function loop(){
-    current+=(target-current)*.12;
-    if(Math.abs(target-current)<.5){current=target;window.scrollTo(0,current);animating=false;return;}
-    window.scrollTo(0,current);requestAnimationFrame(loop);
-  }
-  window.addEventListener('wheel',function(e){
-    if(e.ctrlKey||inner(e.target))return;
-    e.preventDefault();
-    var d=e.deltaY*(e.deltaMode===1?16:1);
-    target+=d; target=Math.max(0,Math.min(max(),target));
-    if(!animating){animating=true;current=window.scrollY;requestAnimationFrame(loop);}
-  },{passive:false});
-  window.addEventListener('scroll',function(){ if(!animating)target=current=window.scrollY; },{passive:true});
-  window.addEventListener('resize',function(){target=Math.max(0,Math.min(max(),target));});
-})();
+/* Smooth momentum scroll removed — native scroll is faster & jank-free. */
 
 /* ---------- ENQUIRY CART (global, localStorage) ---------- */
 (function(){
