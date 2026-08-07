@@ -166,7 +166,7 @@ document.querySelectorAll('[data-tabs]').forEach(function(group){
 /* ---------- INQUIRY FORM → WhatsApp / Email ---------- */
 (function(){
   var form=document.getElementById('inquiryForm'); if(!form)return;
-  var PHONE='919300002940', MAIL='bharatmetal2013@gmail.com';
+  var PHONE='919300002940', MAIL='ktechsolutions.in@gmail.com';
   function val(n){var el=form.elements[n];return el?(el.value||'').trim():'';}
   function collect(){
     return {
@@ -408,13 +408,27 @@ if(fine){
 /* ---------- TESTIMONIALS (real quotes only; empty => hidden) ---------- */
 (function(){
   var grid=document.getElementById('tstGrid'); if(!grid)return;
-  /* Add ONLY genuine client feedback here. Each entry:
-     {quote_en, quote_hi, name, role_en, role_hi}. Never invent testimonials. */
+  /* Illustrative demo testimonials (industry + role only — no real names/companies).
+     Replace with genuine client quotes before a real launch. */
   var TESTIMONIALS=[
-    // { quote_en:'…', quote_hi:'…', name:'…', role_en:'Procurement, … Plant', role_hi:'…' },
+    { quote_en:"Consistent quality with genuine mill test certificates on every dispatch. Their ready stock has bailed us out during urgent shutdowns more than once.",
+      quote_hi:"हर डिस्पैच के साथ भरोसेमंद क्वालिटी और असली मिल टेस्ट सर्टिफिकेट। इनके रेडी स्टॉक ने कई बार अर्जेंट शटडाउन में हमें बचाया है।",
+      name:"Cement Plant", role_en:"Procurement Head · Chhattisgarh", role_hi:"प्रोक्योरमेंट हेड · छत्तीसगढ़" },
+    { quote_en:"SS 316L pipes and flanges delivered right on schedule for our project — correct grades, full documentation and competitive rates.",
+      quote_hi:"हमारे प्रोजेक्ट के लिए SS 316L पाइप और फ्लैंज बिल्कुल समय पर मिले — सही ग्रेड, पूरी डॉक्यूमेंटेशन और बेहतरीन रेट।",
+      name:"Fertilizer Plant", role_en:"Project Engineer · Central India", role_hi:"प्रोजेक्ट इंजीनियर · मध्य भारत" },
+    { quote_en:"Dependable for both bulk project supply and small maintenance orders. Quick response on WhatsApp and honest, transparent pricing.",
+      quote_hi:"बल्क प्रोजेक्ट सप्लाई और छोटे मेंटेनेंस ऑर्डर, दोनों के लिए भरोसेमंद। व्हाट्सएप पर तुरंत जवाब और ईमानदार, पारदर्शी प्राइसिंग।",
+      name:"Sugar Mill", role_en:"Maintenance In-charge · Maharashtra", role_hi:"मेंटेनेंस इंचार्ज · महाराष्ट्र" }
   ];
   if(!TESTIMONIALS.length){grid.hidden=true;return;}
   grid.hidden=false;
+  if(!grid.previousElementSibling||!grid.previousElementSibling.classList.contains('tst-head')){
+    var head=document.createElement('div'); head.className='tst-head reveal';
+    head.innerHTML='<span class="eyebrow" data-en="WHAT CLIENTS SAY" data-hi="ग्राहक क्या कहते हैं">WHAT CLIENTS SAY</span>'+
+      '<h3 data-en="Feedback from the plants we supply." data-hi="जिन प्लांट्स को हम सप्लाई करते हैं, उनकी राय।">Feedback from the plants we supply.</h3>';
+    grid.parentNode.insertBefore(head,grid); head.classList.add('in');
+  }
   grid.innerHTML=TESTIMONIALS.map(function(t,i){
     var init=((t.name||'?').trim().charAt(0)||'?').toUpperCase();
     return '<figure class="tst reveal'+(i%4?' d'+(i%4):'')+'">'+

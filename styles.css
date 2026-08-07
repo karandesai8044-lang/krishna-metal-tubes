@@ -631,6 +631,9 @@ body.hi .reveal.in h2.title::after{bottom:-10px}
   filter:invert(.92) hue-rotate(180deg) brightness(.95) contrast(.9) saturate(.8)}
 
 /* Testimonials */
+.tst-head{margin-top:2.8rem}
+.tst-head h3{font-family:var(--f-display);font-weight:700;font-size:clamp(1.4rem,3vw,2rem);
+  color:var(--white);margin-top:.5rem;letter-spacing:-.01em}
 .tst-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;margin-top:1.3rem}
 .tst{padding:1.6rem 1.6rem;border:1px solid var(--border);border-radius:var(--radius);
   background:linear-gradient(180deg,var(--panel-2),var(--panel))}

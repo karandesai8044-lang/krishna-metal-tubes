@@ -63,5 +63,5 @@ Then open the printed `http://localhost:PORT/` — `index.html` loads at the roo
 ## Contact
 
 - **Phone:** +91 93000 02940 · +91 90987 25624
-- **Email:** bharatmetal2013@gmail.com
+- **Email:** ktechsolutions.in@gmail.com
 - **Address:** Shop No. A-04, Raipur Machinery Merchant Association Complex, Nr. Vayas Talab, Bhanpuri, Raipur (C.G.)
